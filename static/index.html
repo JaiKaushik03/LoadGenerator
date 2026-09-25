@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HyperGrid — Battery Digital Twin</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">HG</div>
+        <div><div class="brand-title">HyperGrid</div><div class="brand-sub">Battery Digital Twin</div></div>
+      </div>
+      <div class="status-card">
+        <div class="dot"></div>
+        <div><strong>Custom solver</strong><span>No MATLAB dependency</span></div>
+      </div>
+      <nav>
+        <button class="nav-btn active" data-tab="system">01 · System</button>
+        <button class="nav-btn" data-tab="batteries">02 · Batteries</button>
+        <button class="nav-btn" data-tab="converter">03 · Converter</button>
+        <button class="nav-btn" data-tab="network">04 · Wires & Load</button>
+        <button class="nav-btn" data-tab="simulation">05 · Simulation</button>
+        <button class="nav-btn" data-tab="results">06 · Results</button>
+      </nav>
+      <div class="side-note">Architecture A<br><span>Each battery → its own switching converter → common local DC bus.</span></div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">HIGH-FIDELITY MICROGRID MODELING</div>
+          <h1>Battery → 1500 V Local DC Bus</h1>
+        </div>
+        <div class="top-actions">
+          <button id="resetBtn" class="btn ghost">Reset defaults</button>
+          <button id="runBtn" class="btn primary">Run simulation</button>
+        </div>
+      </header>
+
+      <div id="banner" class="banner hidden"></div>
+
+      <section id="tab-system" class="tab active">
+        <div class="hero-grid">
+          <div class="card hero-card">
+            <div class="card-kicker">SYSTEM TARGET</div>
+            <div class="big-number"><span id="heroBus">1500</span><small>V DC</small></div>
+            <p>Regulated local DC bus supplied by explicit-switching bidirectional battery converters.</p>
+          </div>
+          <div class="card flow-card">
+            <div class="flow-node">Battery ECM</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Cable R-L</div><div class="flow-arrow">→</div>
+            <div class="flow-node">PWM DC-DC</div><div class="flow-arrow">→</div>
+            <div class="flow-node accent">Local DC Bus</div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>System configuration</h2>
+          <div class="grid cols-3">
+            <label>System name<input id="systemName" type="text"></label>
+            <label>DC bus target (V)<input id="busTarget" type="number" step="1"></label>
+            <label>Initial DC bus (V)<input id="initialBus" type="number" step="1"></label>
+            <label>Control mode<select id="controlMode"><option value="dc_bus_voltage">DC-bus voltage</option><option value="power">Fixed power</option><option value="current">Fixed current</option></select></label>
+            <label>Power sharing<select id="powerSharing"><option value="rated_power">Proportional to rating</option><option value="equal">Equal</option><option value="soc_weighted">SOC weighted</option><option value="custom">Custom</option></select></label>
+            <label>Protection<select id="protectionEnabled"><option value="true">Enabled</option><option value="false">Disabled</option></select></label>
+          </div>
+        </div>
+        <div class="card info-card">
+          <h2>Fidelity stack</h2>
+          <div class="pill-row">
+            <span>2-RC ECM</span><span>OCV hysteresis</span><span>thermal</span><span>aging</span><span>PWM</span><span>dead time</span><span>IGBT loss</span><span>cable R-L</span><span>DC-link ESR</span><span>PI control</span><span>protection</span>
+          </div>
+          <p class="muted">Manufacturer static specifications are used where public. Dynamic ECM parameters remain explicitly tagged as calibration seeds until HPPC/EIS test data are supplied.</p>
+        </div>
+      </section>
+
+      <section id="tab-batteries" class="tab">
+        <div class="section-head"><div><div class="eyebrow">SOURCE MODEL</div><h2>Battery packs</h2></div><button id="addBatteryBtn" class="btn secondary">+ Add battery</button></div>
+        <div id="batteryList"></div>
+      </section>
+
+      <section id="tab-converter" class="tab">
+        <div class="card">
+          <h2>Switching bidirectional DC-DC converter</h2>
+          <div class="grid cols-3">
+            <label>Semiconductor<select id="semiconductor"></select></label>
+            <label>Switching frequency (Hz)<input id="fsw" type="number" step="100"></label>
+            <label>Dead time (µs)<input id="deadtime" type="number" step="0.5"></label>
+            <label>Inductor design<select id="inductorMode"><option value="auto">Auto from ripple target</option><option value="manual">Manual</option></select></label>
+            <label>Target ripple (%)<input id="ripplePct" type="number" step="0.5"></label>
+            <label>Manual L (mH)<input id="manualL" type="number" step="0.05"></label>
+            <label>Inductor ESR (mΩ)<input id="inductorEsr" type="number" step="0.1"></label>
+            <label>DC-link capacitance (mF)<input id="busCap" type="number" step="1"></label>
+            <label>Capacitor ESR (mΩ)<input id="busCapEsr" type="number" step="0.1"></label>
+            <label>Parallel modules / switch<input id="parallelModules" type="number" min="1" step="1"></label>
+            <label>Current loop bandwidth (Hz)<input id="currentBw" type="number" step="5"></label>
+            <label>Voltage loop bandwidth (Hz)<input id="voltageBw" type="number" step="1"></label>
+          </div>
+        </div>
+        <div class="card diagram-card">
+          <div class="switch-diagram">
+            <div class="sd-source">Battery<br><small>~800 V</small></div>
+            <div class="sd-line"></div><div class="sd-l">L</div><div class="sd-line"></div>
+            <div class="sd-leg"><span>S<sub>H</sub></span><span>S<sub>L</sub></span></div>
+            <div class="sd-line"></div><div class="sd-bus">1500 V<br><small>DC Bus</small></div>
+          </div>
+          <p class="muted">The engine resolves the switching state directly. It does not replace the converter with an averaged duty-cycle plant.</p>
+        </div>
+      </section>
+
+      <section id="tab-network" class="tab">
+        <div class="card">
+          <h2>Default local DC load profile</h2>
+          <div id="loadSchedule"></div>
+          <button id="addLoadStep" class="btn ghost small">+ Add load step</button>
+        </div>
+        <div class="card">
+          <h2>Why wire geometry matters</h2>
+          <p class="muted">Each battery has its own cable model. Resistance is temperature corrected and uses the full positive/negative loop. Inductance is geometry-derived for a two-wire pair or can be entered directly for busbars/custom layouts.</p>
+        </div>
+      </section>
+
+      <section id="tab-simulation" class="tab">
+        <div class="card">
+          <h2>Numerical simulation</h2>
+          <div class="grid cols-3">
+            <label>Duration (s)<input id="duration" type="number" step="0.1"></label>
+            <label>Accuracy<select id="accuracy"><option value="preview">Preview</option><option value="high">High</option><option value="research">Research</option><option value="extreme">Extreme</option></select></label>
+            <label>Excel/output sample rate (Hz)<input id="sampleRate" type="number" step="100"></label>
+            <label>Soft-start duration (s)<input id="softStart" type="number" step="0.05"></label>
+            <label>Ambient temperature (°C)<input id="ambient" type="number" step="1"></label>
+            <label>Random seed<input id="seed" type="number" step="1"></label>
+          </div>
+          <div class="toggles">
+            <label><input id="thermalToggle" type="checkbox"> Thermal dynamics</label>
+            <label><input id="agingToggle" type="checkbox"> Aging</label>
+            <label><input id="switchLossToggle" type="checkbox"> Switching loss</label>
+            <label><input id="wireIndToggle" type="checkbox"> Wire inductance</label>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Protection thresholds</h2>
+          <div class="grid cols-3">
+            <label>Battery overtemperature (°C)<input id="batOvertemp" type="number" step="1"></label>
+            <label>Semiconductor overtemperature (°C)<input id="semiOvertemp" type="number" step="1"></label>
+            <label>Bus overvoltage (V)<input id="busOv" type="number" step="10"></label>
+            <label>Bus undervoltage (V)<input id="busUv" type="number" step="10"></label>
+            <label>Bus UV delay (s)<input id="busUvDelay" type="number" step="0.05"></label>
+            <label>Overcurrent trip delay (ms)<input id="currentTripDelay" type="number" step="0.5"></label>
+          </div>
+        </div>
+        <div class="card warning-card">
+          <strong>Research rule:</strong> the solver can be made numerically finer than MATLAB defaults, but numerical resolution is not the same as physical truth. Cell-specific accuracy ultimately comes from measured HPPC/EIS/thermal data. HyperGrid keeps provenance and assumptions visible instead of hiding them.
+        </div>
+      </section>
+
+      <section id="tab-results" class="tab">
+        <div id="emptyResults" class="empty-state"><div class="empty-icon">⚡</div><h2>No simulation yet</h2><p>Configure the system and press <strong>Run simulation</strong>.</p></div>
+        <div id="resultsPane" class="hidden">
+          <div class="results-actions"><div><div class="eyebrow">RUN COMPLETE</div><h2 id="runIdText">—</h2></div><a id="downloadExcel" class="btn primary" href="#">Download Excel</a></div>
+          <div id="warningList"></div>
+          <div class="metrics" id="metrics"></div>
+          <div class="chart-grid">
+            <div class="card chart-card"><div class="chart-title">DC bus voltage</div><canvas id="chartBus"></canvas></div>
+            <div class="card chart-card"><div class="chart-title">Battery current</div><canvas id="chartCurrent"></canvas></div>
+            <div class="card chart-card"><div class="chart-title">Battery power</div><canvas id="chartPower"></canvas></div>
+            <div class="card chart-card"><div class="chart-title">SOC</div><canvas id="chartSoc"></canvas></div>
+            <div class="card chart-card"><div class="chart-title">Converter losses</div><canvas id="chartLoss"></canvas></div>
+            <div class="card chart-card"><div class="chart-title">PWM gate state</div><canvas id="chartGate"></canvas></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="busy" class="busy hidden"><div class="spinner"></div><div><strong>Solving switching network…</strong><span>Explicit PWM + electrothermal battery dynamics</span></div></div>
+  <script src="/app.js"></script>
+</body>
+</html>

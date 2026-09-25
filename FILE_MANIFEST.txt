@@ -1,0 +1,21 @@
+HyperGrid Battery Digital Twin v0.2 PORTABLE - File Manifest
+
+START_HYPERGRID_WINDOWS.bat   Windows launcher (recommended)
+start_windows.bat             Same Windows launcher
+start_mac_linux.sh            macOS/Linux launcher
+app.py                        Local zero-dependency HTTP server/API
+hypergrid/config.py           Defaults, validation, user configuration
+hypergrid/simulator.py        Explicit PWM electrothermal simulation engine
+hypergrid/exporter.py         Native .xlsx exporter
+static/index.html             Frontend page
+static/app.js                 Frontend behavior, charts, API integration
+static/styles.css             Frontend styling
+data/battery_catalog.json     Battery cell specifications / ECM seeds
+data/semiconductor_catalog.json Semiconductor specifications
+ data/sources.json            Provenance/source URLs
+README.md                     Technical overview and run instructions
+COLLABORATION.md              GitHub partner workflow
+CHANGELOG.md                  Version history
+RUN_ME_FIRST.txt              Short startup instructions
+requirements.txt              Documents zero third-party dependencies
+outputs/                      Generated Excel files

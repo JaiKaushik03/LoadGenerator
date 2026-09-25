@@ -1,0 +1,2 @@
+# HyperGrid Portable v0.2 intentionally has ZERO third-party Python dependencies.
+# Python 3.10+ is all that is required.

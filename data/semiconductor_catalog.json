@@ -1,0 +1,165 @@
+{
+  "infineon_fz1500r33hl3_reference": {
+    "display_name": "Infineon FZ1500R33HL3 reference-calibrated IGBT",
+    "manufacturer": "Infineon",
+    "technology": "IGBT",
+    "voltage_rating_v": 3300.0,
+    "current_rating_a": 1500.0,
+    "tj_max_c": 150.0,
+    "vce_sat": {
+      "current_ref_a": 1500.0,
+      "temperature_c": [
+        25.0,
+        125.0,
+        150.0
+      ],
+      "voltage_v": [
+        2.4,
+        2.95,
+        3.1
+      ]
+    },
+    "diode_vf": {
+      "current_ref_a": 1500.0,
+      "temperature_c": [
+        25.0,
+        125.0,
+        150.0
+      ],
+      "voltage_v": [
+        2.25,
+        2.2,
+        2.2
+      ]
+    },
+    "switching_energy": {
+      "v_ref_v": 1800.0,
+      "i_ref_a": 1500.0,
+      "temperature_c": [
+        25.0,
+        125.0,
+        150.0
+      ],
+      "eon_j": [
+        2.3,
+        3.2,
+        3.6
+      ],
+      "eoff_j": [
+        2.4,
+        2.95,
+        3.1
+      ]
+    },
+    "thermal": {
+      "rth_jc_k_per_w": 0.00735,
+      "rth_ch_k_per_w": 0.01,
+      "junction_thermal_capacitance_j_per_k": 450.0
+    },
+    "status_note": "Reference device is useful for physics calibration; manufacturer lists this specific HL3 part as not for new design. The simulator keeps the device model selectable."
+  },
+  "ideal_switch": {
+    "display_name": "Ideal switch (verification only)",
+    "manufacturer": "Generic",
+    "technology": "Ideal",
+    "voltage_rating_v": 100000.0,
+    "current_rating_a": 100000.0,
+    "tj_max_c": 1000.0,
+    "vce_sat": {
+      "current_ref_a": 1.0,
+      "temperature_c": [
+        25.0
+      ],
+      "voltage_v": [
+        0.0
+      ]
+    },
+    "diode_vf": {
+      "current_ref_a": 1.0,
+      "temperature_c": [
+        25.0
+      ],
+      "voltage_v": [
+        0.0
+      ]
+    },
+    "switching_energy": {
+      "v_ref_v": 1.0,
+      "i_ref_a": 1.0,
+      "temperature_c": [
+        25.0
+      ],
+      "eon_j": [
+        0.0
+      ],
+      "eoff_j": [
+        0.0
+      ]
+    },
+    "thermal": {
+      "rth_jc_k_per_w": 0.0,
+      "rth_ch_k_per_w": 0.0,
+      "junction_thermal_capacitance_j_per_k": 1.0
+    },
+    "status_note": "Use only to isolate control/plant behavior."
+  },
+  "wolfspeed_cab600m33lm3_sic": {
+    "display_name": "Wolfspeed CAB600M33LM3 3300 V SiC half-bridge",
+    "manufacturer": "Wolfspeed",
+    "technology": "SiC MOSFET",
+    "voltage_rating_v": 3300.0,
+    "current_rating_a": 770.0,
+    "tj_max_c": 175.0,
+    "vce_sat": {
+      "current_ref_a": 600.0,
+      "temperature_c": [
+        25.0,
+        125.0,
+        175.0
+      ],
+      "voltage_v": [
+        1.62,
+        2.7,
+        4.08
+      ]
+    },
+    "diode_vf": {
+      "current_ref_a": 600.0,
+      "temperature_c": [
+        25.0,
+        125.0,
+        175.0
+      ],
+      "voltage_v": [
+        6.0,
+        5.55,
+        5.3
+      ]
+    },
+    "switching_energy": {
+      "v_ref_v": 1800.0,
+      "i_ref_a": 600.0,
+      "temperature_c": [
+        25.0,
+        125.0,
+        175.0
+      ],
+      "eon_j": [
+        0.1093,
+        0.0986,
+        0.107
+      ],
+      "eoff_j": [
+        0.05,
+        0.0463,
+        0.0487
+      ]
+    },
+    "thermal": {
+      "rth_jc_k_per_w": 0.037,
+      "rth_ch_k_per_w": 0.008,
+      "junction_thermal_capacitance_j_per_k": 220.0
+    },
+    "status_note": "Active 3300 V SiC half-bridge. RDS(on) is 2.7 m\u03a9 typical at 25\u00b0C, 600 A with 15 V gate; switching-energy values are datasheet points at 1800 V / 600 A."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "battery_primary": "https://en.hithium.com/bocupload/2025/09/08/17573034600657ku6wd.pdf",
+  "battery_product_page": "https://en.hithium.com/products/1.html",
+  "ocv_secondary": "https://www.scribd.com/document/982136197/1-PT-314Ah-LFP-Cell-Introduction-20230919-V1-0",
+  "semiconductor_primary": "https://www.infineon.com/assets/row/public/documents/60/49/infineon-fz1500r33hl3-datasheet-en.pdf",
+  "semiconductor_product": "https://www.infineon.com/part/FZ1500R33HL3",
+  "semiconductor_sic_primary": "https://assets.wolfspeed.com/uploads/2024/07/Wolfspeed_CAB600M33LM3_data_sheet.pdf",
+  "semiconductor_sic_product": "https://www.wolfspeed.com/products/power/sic-power-modules/3300v-lm-silicon-carbide-half-bridge-power-modules/cab600m33lm3/"
+}

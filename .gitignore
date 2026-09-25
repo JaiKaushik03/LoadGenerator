@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+outputs/*.xlsx
+outputs/*.csv
+.DS_Store
+.vscode/
+.idea/

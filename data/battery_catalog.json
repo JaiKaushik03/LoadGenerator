@@ -1,0 +1,42 @@
+{
+  "hithium_314ah_lfp": {
+    "display_name": "HiTHIUM ESS Cell 314 Ah (LFP71173207/314Ah)",
+    "chemistry": "LFP",
+    "manufacturer": "HiTHIUM",
+    "model": "LFP71173207/314Ah",
+    "nominal_voltage_v": 3.2,
+    "nominal_capacity_ah": 314.0,
+    "nominal_energy_wh": 1004.8,
+    "voltage_min_v_above_0c": 2.5,
+    "voltage_min_v_at_or_below_0c": 2.0,
+    "voltage_max_v": 3.65,
+    "ac_resistance_1khz_ohm": 0.0002,
+    "ac_resistance_tolerance_ohm": 0.00005,
+    "nominal_continuous_charge_rate_p": 0.5,
+    "nominal_continuous_discharge_rate_p": 0.5,
+    "mass_kg": 5.6,
+    "volume_l": 2.59,
+    "dimensions_mm": [174.70, 71.70, 207.11],
+    "charge_temp_c": [0.0, 60.0],
+    "discharge_temp_c": [-30.0, 60.0],
+    "cycle_life_to_soh": {"cycles": 13000, "soh": 0.65},
+    "self_discharge_per_month": 0.03,
+    "ocv_calibration": {
+      "status": "provisional_public_curve_not_manufacturer_hppc",
+      "soc": [0.0, 0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 1.0],
+      "charge_v": [2.889, 3.221, 3.229, 3.287, 3.303, 3.304, 3.306, 3.339, 3.340, 3.340, 3.341, 3.340, 3.399],
+      "discharge_v": [2.889, 3.206, 3.217, 3.271, 3.290, 3.291, 3.294, 3.330, 3.331, 3.331, 3.333, 3.335, 3.399]
+    },
+    "ecm_seed": {
+      "note": "R0 is anchored to manufacturer 1 kHz AC resistance. R1/R2 and time constants are engineering seed values and must be replaced by HPPC-identified values for cell-specific validation.",
+      "r0_cell_ohm_25c": 0.0002,
+      "r1_cell_ohm_25c": 0.00007,
+      "tau1_s": 4.0,
+      "r2_cell_ohm_25c": 0.00005,
+      "tau2_s": 45.0,
+      "temp_resistance_coefficient_per_c_below_25": 0.025,
+      "temp_resistance_coefficient_per_c_above_25": 0.006,
+      "specific_heat_j_per_kgk": 1000.0
+    }
+  }
+}

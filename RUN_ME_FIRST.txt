@@ -1,0 +1,19 @@
+HYPERGRID BATTERY DIGITAL TWIN v0.2 PORTABLE
+
+WINDOWS
+1. Extract the ZIP fully.
+2. Double-click START_HYPERGRID_WINDOWS.bat
+3. Your browser should open http://127.0.0.1:8000
+
+MAC / LINUX
+1. Extract the ZIP.
+2. Open Terminal in this folder.
+3. Run: ./start_mac_linux.sh
+
+REQUIREMENT
+- Python 3.10+ only.
+- No pip install.
+- No FastAPI, NumPy, Numba, Pydantic, XlsxWriter, MATLAB, or Simulink required.
+
+COLLABORATION
+Upload the entire extracted folder to a private GitHub repository. Both partners can clone it and edit the same project using branches/commits.
