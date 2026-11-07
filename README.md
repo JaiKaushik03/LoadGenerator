@@ -1,5 +1,14 @@
 # HyperGrid Battery Digital Twin v0.2 PORTABLE
 
+## Tested screenshots
+
+Captured from the running local application on November 7, 2026. The default simulation completed with no protection trip. Values are simulated outputs, not experimentally calibrated measurements.
+
+![System configuration](docs/screenshots/system.png)
+
+![Completed simulation results](docs/screenshots/results.png)
+
+
 HyperGrid is a standalone battery-to-local-DC-bus simulation project intended to grow into a configurable multi-microgrid data-generation platform.
 
 ## What changed in v0.2
