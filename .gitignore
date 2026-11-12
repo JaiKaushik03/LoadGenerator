@@ -5,3 +5,5 @@ outputs/*.csv
 .DS_Store
 .vscode/
 .idea/
+
+benchmark-output/

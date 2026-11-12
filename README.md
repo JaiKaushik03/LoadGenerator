@@ -98,3 +98,25 @@ Do not use Google Colab as the sole copy of this multi-file project; Colab runti
 ## Scientific limitation that is intentionally visible
 
 The public HiTHIUM sheet provides static electrical specifications but does not provide a complete cell-specific HPPC/EIS parameter map across SOC and temperature. HyperGrid therefore labels the current dynamic ECM values as calibration seeds. The next research-grade step is an HPPC parameter-identification/import module so measured data can replace those seeds.
+
+
+## Reproducible performance and export benchmark
+
+On November 12, 2026, a synthetic software benchmark ran the default one-battery High-fidelity configuration at 3.2, 30 and 120 simulated seconds, with three repetitions per duration. The configured output interval was 0.2 ms and the integration step was 20 microseconds. The 120-second case generated **600,001 samples** and exported **600,001 data rows in each of the system and battery sheets**, with **17 columns in the battery sheet**. The real XLSX archive was CRC-checked and its XML rows counted.
+
+[Raw repetitions, environment, source hashes and export counts](docs/benchmarks/results-20261112.json)
+
+| Configured duration | Samples | Median simulation runtime |
+|---|---:|---:|
+| 3.2 seconds | 16,001 | 4.76 seconds |
+| 30 seconds | 150,001 | 27.90 seconds |
+| 120 seconds | 600,001 | 213.01 seconds |
+
+The largest workbook was 110,817,038 bytes and took 111.38 seconds to export. The three 120-second runtime measurements ranged from 144.09 to 310.51 seconds, so these measurements should not be presented as a stable production throughput guarantee. They were collected on a shared Windows machine, with no hardware isolation. The actual final grid timestamp was 119.99998 seconds, one integration step below the requested horizon; this quantization is recorded explicitly. No protection trip occurred in these cases.
+
+```powershell
+python benchmarks/run.py --durations 3.2 30 120 --repeats 3
+python -m unittest discover -s tests -v
+```
+
+The benchmark writes a new local `benchmark-output/` directory. The large XLSX file is not committed; its SHA-256 is recorded so regenerated files can be inspected. This is a software throughput/export benchmark, not physical validation, experimental calibration, real-world usage or a million-row completed benchmark. The original measurements used the unchanged solver/exporter from commit f0d5329; this branch additionally rejects non-finite simulation inputs and verifies the output contract in CI.
