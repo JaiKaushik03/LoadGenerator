@@ -6,3 +6,5 @@ outputs/*/
 .DS_Store
 .vscode/
 .idea/
+.venv-validation/
+benchmark-output/

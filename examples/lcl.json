@@ -1,0 +1,38 @@
+{
+  "duration_s": 0.2,
+  "step_s": 5e-06,
+  "output_interval_s": 0.0002,
+  "frequency_hz": 60.0,
+  "nodes": [
+    {
+      "id": "habitat",
+      "control": "vsm",
+      "voltage_phase_rms_v": 120.0,
+      "dc_voltage_v": 400.0,
+      "source_l_h": 0.0026,
+      "source_r_ohm": 0.1,
+      "bus_c_f": 0.0002,
+      "load_r_ohm": 20.0,
+      "p_set_w": 2160.0,
+      "q_set_var": 0.0,
+      "mp_rad_s_per_w": 0.0002,
+      "mq_v_per_var": 0.0001,
+      "inertia_w_s2_rad": 100.0,
+      "power_filter_rad_s": 50.0,
+      "dvoc_k1": 5.76,
+      "dvoc_k2": 1e-06,
+      "lcl": {
+        "filter_c_f": 2e-05,
+        "grid_l_h": 0.00065,
+        "grid_r_ohm": 0.05,
+        "voltage_kp_a_v": 0.02,
+        "voltage_ki_a_vs": 5.0,
+        "current_kp_v_a": 10.0,
+        "current_ki_v_as": 1000.0,
+        "antiwindup_per_s": 100.0,
+        "current_reference_limit_a": 50.0
+      }
+    }
+  ],
+  "lines": []
+}

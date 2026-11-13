@@ -1,0 +1,4 @@
+# Optional independent-reference checks; application runtime remains stdlib-only.
+scipy==1.16.3
+pvlib==0.13.1
+ruff==0.14.4

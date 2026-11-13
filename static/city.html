@@ -1,15 +1,553 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HyperGrid City Scenario Editor</title>
-<style>body{font:16px system-ui;max-width:1100px;margin:40px auto;padding:0 24px;color:#14233b;background:#f5f7fb}h1{font-size:32px}textarea{box-sizing:border-box;width:100%;height:420px;border:1px solid #b8c3d5;border-radius:8px;padding:16px;font:13px monospace}button{padding:12px 20px;margin:12px 8px 12px 0;background:#173c6b;color:white;border:0;border-radius:6px;cursor:pointer}button:disabled{opacity:.5}pre{white-space:pre-wrap;background:white;padding:20px;border-radius:8px}a{margin-right:24px;color:#164a80}label{display:block;font-weight:600;margin:24px 0 8px}</style>
-<h1>HyperGrid City Scenario Editor</h1>
-<p>Configure microgrids, sources, loads, storage and direct power links. Energy-balance mode uses editable assumptions; it does not simulate full AC/DC circuit dynamics or establish real-world accuracy.</p>
-<label for="config">Scenario configuration</label><p>Add or remove assets in the arrays to change their counts. All power values are kW; durations are seconds. Keep IDs unique and update link endpoints when changing nodes.</p>
-<textarea id="config" spellcheck="false" aria-label="Scenario configuration"></textarea>
-<button id="reset">Load example</button><button id="run">Run scenario and export</button>
-<p id="status" role="status" aria-live="polite">Loading example…</p><div id="downloads"></div><pre id="result">Run a scenario to inspect city totals.</pre>
-<script>
-const editor=document.querySelector('#config'),status=document.querySelector('#status'),run=document.querySelector('#run');
-async function defaults(){try{editor.value=JSON.stringify(await (await fetch('/api/config')).json(),null,2);status.textContent='Example loaded. Edit before running.'}catch(e){status.textContent=e.message}}
-document.querySelector('#reset').onclick=defaults;
-run.onclick=async()=>{run.disabled=true;document.querySelector('#downloads').replaceChildren();try{const config=JSON.parse(editor.value);const response=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(config)});const job=await response.json();if(!response.ok)throw Error(job.error);status.textContent='Running simulation and preparing Excel…';let state;do{await new Promise(resolve=>setTimeout(resolve,700));state=await(await fetch('/api/jobs/'+job.id)).json()}while(state.status==='running');if(state.status!=='complete')throw Error(state.error||'Job failed');status.textContent='Complete — '+state.interval_records+' intervals';document.querySelector('#result').textContent=JSON.stringify(state.totals,null,2);for(const [suffix,label]of[['xlsx','Download Excel'],['jsonl','Download full dataset'],['metadata','Download assumptions and metadata']]){const a=document.createElement('a');a.href='/api/jobs/'+job.id+'/'+suffix;a.textContent=label;document.querySelector('#downloads').append(a)}}catch(e){status.textContent='Error: '+e.message}finally{run.disabled=false}};defaults();
-</script></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>HyperGrid | Lunar Energy Laboratory</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #080f1a;
+        --panel: #101c2c;
+        --line: #253449;
+        --text: #e8edf5;
+        --muted: #9bacbf;
+        --gold: #e7c77a;
+        --cyan: #6cddcd;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          15px/1.6 system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 1400px;
+        margin: auto;
+        padding: 32px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 20px;
+      }
+      .brand {
+        letter-spacing: 0.2em;
+        font-weight: 800;
+        font-size: 21px;
+      }
+      .tag,
+      .eyebrow {
+        color: var(--gold);
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .hero {
+        padding: 32px 0 26px;
+      }
+      .hero h1 {
+        font-size: clamp(28px, 4vw, 44px);
+        line-height: 1.15;
+        margin: 10px 0 16px;
+        letter-spacing: -0.035em;
+      }
+      .hero p {
+        color: var(--muted);
+        max-width: 850px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(330px, 1fr) minmax(0, 1.45fr);
+        gap: 24px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 22px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 0 0 16px;
+      }
+      p {
+        margin: 8px 0 16px;
+      }
+      .muted,
+      small {
+        color: var(--muted);
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        margin: 16px 0 7px;
+      }
+      select {
+        width: 100%;
+        padding: 12px;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        color: var(--text);
+        font: inherit;
+      }
+      textarea {
+        width: 100%;
+        height: 370px;
+        resize: vertical;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        color: #c5d4e8;
+        padding: 14px;
+        font:
+          12px/1.6 ui-monospace,
+          monospace;
+      }
+      button {
+        padding: 12px 18px;
+        border: 0;
+        border-radius: 6px;
+        font: 600 13px system-ui;
+        cursor: pointer;
+        margin: 12px 6px 0 0;
+        background: var(--gold);
+        color: #172030;
+      }
+      button.secondary {
+        color: var(--text);
+        background: #26364c;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: wait;
+      }
+      :focus-visible {
+        outline: 2px solid var(--cyan);
+        outline-offset: 3px;
+      }
+      .status {
+        border-left: 3px solid var(--gold);
+        padding: 8px 12px;
+        background: #17253a;
+        margin: 18px 0;
+        color: #d7e2ef;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .stat {
+        background: var(--bg);
+        padding: 14px;
+        border-radius: 6px;
+      }
+      .stat strong {
+        font-size: 23px;
+        display: block;
+      }
+      .stat span {
+        color: var(--muted);
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+      canvas {
+        width: 100%;
+        height: 250px;
+        display: block;
+      }
+      .legend {
+        display: flex;
+        gap: 18px;
+        font-size: 12px;
+        flex-wrap: wrap;
+      }
+      .legend span::before {
+        content: "●";
+        margin-right: 6px;
+      }
+      .supply {
+        color: var(--cyan);
+      }
+      .load {
+        color: var(--gold);
+      }
+      .unserved {
+        color: #fa8f9a;
+      }
+      #downloads a {
+        display: block;
+        color: var(--cyan);
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        text-decoration: none;
+      }
+      pre {
+        max-height: 240px;
+        overflow: auto;
+        font:
+          12px/1.65 ui-monospace,
+          monospace;
+        white-space: pre-wrap;
+      }
+      details summary {
+        cursor: pointer;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .empty {
+        color: var(--muted);
+        text-align: center;
+        padding: 65px 10px;
+      }
+      .scope {
+        font-size: 12px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+      }
+      #topology {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .node {
+        padding: 5px 9px;
+        border: 1px solid #344961;
+        border-radius: 4px;
+        font-size: 11px;
+        color: #bfd1e8;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      @media (max-width: 850px) {
+        main {
+          padding: 20px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .tag {
+          max-width: 155px;
+          text-align: right;
+        }
+        .stats {
+          gap: 6px;
+        }
+        .stat {
+          padding: 10px;
+        }
+        .stat strong {
+          font-size: 19px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="brand">HYPERGRID / LAB</div>
+        <div class="tag">Lunar city · Synthetic data</div>
+      </header>
+      <section class="hero">
+        <div class="eyebrow">Configurable research environment</div>
+        <h1>One city. Every energy flow.</h1>
+        <p>
+          Explore city-scale resource balances and short electrical transients.
+          Configure the system, inspect conservation diagnostics, and export the
+          full dataset with its assumptions.
+        </p>
+      </section>
+      <div class="grid">
+        <section>
+          <div class="panel">
+            <h2>01 / Define the experiment</h2>
+            <label for="mode">Model preset</label
+            ><select id="mode">
+              <option value="hybrid">
+                City · Solar + five storage families
+              </option>
+              <option value="energy">City · Energy balance</option>
+              <option value="emt">Electrical · RL network</option>
+              <option value="lcl">Electrical · LCL inverter</option>
+              <option value="coupled">Coupled · City + RL inverters</option>
+              <option value="coupled_lcl">
+                Coupled · City + LCL inverters
+              </option>
+            </select>
+            <p id="modeInfo" class="muted" style="font-size: 12px"></p>
+            <div id="topology" aria-label="Configured microgrid nodes"></div>
+            <label for="config">Scenario configuration</label
+            ><textarea id="config" spellcheck="false"></textarea
+            ><small
+              >Add or remove assets to change counts. Keep IDs unique and update
+              link endpoints. Field suffixes identify units.</small
+            >
+            <div>
+              <button id="run">Run experiment →</button
+              ><button class="secondary" id="reset">Reset preset</button>
+            </div>
+            <div id="status" class="status" role="status" aria-live="polite">
+              Loading preset…
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="panel">
+            <h2>02 / Inspect the outcome</h2>
+            <div class="stats">
+              <div class="stat">
+                <strong id="recordCount">—</strong><span>Output records</span>
+              </div>
+              <div class="stat">
+                <strong id="horizon">—</strong><span>Simulated horizon</span>
+              </div>
+              <div class="stat">
+                <strong id="runtime">—</strong><span>Compute time</span>
+              </div>
+            </div>
+            <div id="empty" class="empty">
+              Your experiment results will appear here.<br /><small
+                >Start with a preset or edit the configuration.</small
+              >
+            </div>
+            <canvas
+              id="chart"
+              width="1000"
+              height="360"
+              hidden
+              aria-label="Power over simulated time"
+              role="img"
+            ></canvas>
+            <div id="legend" class="legend" hidden>
+              <span class="supply">Generation / bridge input</span
+              ><span class="load">Served load</span
+              ><span class="unserved">Unserved load (mission)</span>
+            </div>
+            <p id="sampling" class="muted" style="font-size: 11px"></p>
+            <details>
+              <summary>Conservation diagnostics and totals</summary>
+              <pre id="result">No run yet.</pre>
+            </details>
+          </div>
+          <div class="panel">
+            <h2>03 / Take the evidence</h2>
+            <p class="muted" style="font-size: 13px">
+              Full resolution stays in the dataset. The preview uses a bounded
+              subset of samples and can omit short events.
+            </p>
+            <div id="downloads">
+              Complete an experiment to enable downloads.
+            </div>
+          </div>
+          <p class="scope">
+            Research models with editable engineering assumptions. Mission mode
+            uses ordered direct-link dispatch. Electrical modes use balanced
+            averaged bridges and RL/LCL circuits. These simulations do not
+            establish calibrated lunar performance, NASA endorsement, flight
+            suitability, or commercial-tool equivalence.
+          </p>
+        </section>
+      </div>
+    </main>
+    <script>
+      const $ = (s) => document.querySelector(s),
+        editor = $("#config"),
+        status = $("#status"),
+        run = $("#run"),
+        mode = $("#mode");
+      const descriptions = {
+        energy:
+          "Long horizons · aggregate energy states · independent output sampling",
+        hybrid:
+          "PV diode model · battery · RFC reactants · flywheel · supercapacitor · thermal tank",
+        emt: "Short windows · balanced αβ circuit · droop / VSM / dVOC primary control",
+        lcl: "Short windows · LCL filter · cascaded voltage/current PI controls",
+        coupled:
+          "Two time scales · physical RL links · actual port energy updates resources",
+        coupled_lcl:
+          "Two time scales · LCL controls · resource-constrained averaged bridge",
+      };
+      function nodes(config) {
+        $("#topology").replaceChildren(
+          ...(config.city || config).nodes.map((n) => {
+            const d = document.createElement("span");
+            d.className = "node";
+            d.textContent = n.name || n.id;
+            return d;
+          }),
+        );
+      }
+      async function defaults() {
+        clearResults();
+        try {
+          const r = await fetch("/api/config?mode=" + mode.value);
+          if (!r.ok) throw Error("Preset unavailable");
+          const c = await r.json();
+          editor.value = JSON.stringify(c, null, 2);
+          nodes(c);
+          $("#modeInfo").textContent = descriptions[mode.value];
+          status.textContent = "Preset loaded. Ready to run.";
+        } catch (e) {
+          status.textContent = e.message;
+        }
+      }
+      mode.onchange = defaults;
+      function clearResults() {
+        $("#chart").hidden = true;
+        $("#legend").hidden = true;
+        $("#empty").hidden = false;
+        for (const id of ["recordCount", "horizon", "runtime"])
+          $("#" + id).textContent = "—";
+        $("#sampling").textContent = "";
+        $("#result").textContent = "No run yet.";
+        $("#downloads").textContent =
+          "Complete an experiment to enable downloads.";
+      }
+      $("#reset").onclick = defaults;
+      function draw(preview) {
+        const c = $("#chart"),
+          ctx = c.getContext("2d"),
+          p = preview.points;
+        if (!p.length) return;
+        c.hidden = false;
+        $("#empty").hidden = true;
+        $("#legend").hidden = false;
+        const w = c.width,
+          h = c.height,
+          left = 72,
+          right = 20,
+          top = 24,
+          bottom = 46,
+          keys = ["supply_kw", "load_kw", "unserved_kw"],
+          colors = ["#6cddcd", "#e7c77a", "#fa8f9a"];
+        const ys = p.flatMap((x) => keys.map((k) => x[k] || 0)),
+          lo = Math.min(0, ...ys),
+          hi = Math.max(1, ...ys),
+          t0 = p[0].time_s,
+          t1 = p.at(-1).time_s;
+        ctx.clearRect(0, 0, w, h);
+        ctx.font = "16px system-ui";
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+          const y = top + ((h - top - bottom) * i) / 4;
+          ctx.strokeStyle = "#253449";
+          ctx.beginPath();
+          ctx.moveTo(left, y);
+          ctx.lineTo(w - right, y);
+          ctx.stroke();
+          ctx.fillStyle = "#9bacbf";
+          ctx.fillText((hi - ((hi - lo) * i) / 4).toFixed(1), 8, y + 5);
+        }
+        ctx.fillText("kW", 8, 14);
+        ctx.fillText(t0.toPrecision(4) + " s", left, h - 12);
+        ctx.textAlign = "right";
+        ctx.fillText(t1.toPrecision(4) + " s", w - right, h - 12);
+        ctx.textAlign = "left";
+        keys.forEach((k, j) => {
+          ctx.strokeStyle = colors[j];
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          let started = false;
+          for (const x of p) {
+            if (x[k] === undefined) continue;
+            const px =
+                left +
+                ((x.time_s - t0) / Math.max(1e-15, t1 - t0)) *
+                  (w - left - right),
+              py = top + ((hi - x[k]) / (hi - lo)) * (h - top - bottom);
+            if (!started) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+            started = true;
+          }
+          ctx.stroke();
+        });
+        $("#sampling").textContent =
+          "Display: " +
+          p.length +
+          " samples / " +
+          preview.full_records +
+          " output records. " +
+          preview.sampling +
+          ".";
+      }
+      run.onclick = async () => {
+        run.disabled = true;
+        mode.disabled = true;
+        $("#reset").disabled = true;
+        $("#downloads").replaceChildren();
+        try {
+          const config = JSON.parse(editor.value);
+          nodes(config);
+          const endpoint =
+            "/api/jobs" +
+            ({
+              emt: "/emt",
+              lcl: "/emt",
+              coupled: "/coupled",
+              coupled_lcl: "/coupled",
+            }[mode.value] || "");
+          const response = await fetch(endpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(config),
+            }),
+            job = await response.json();
+          if (!response.ok) throw Error(job.error);
+          status.textContent = "Running physics and preparing evidence…";
+          let state;
+          do {
+            await new Promise((resolve) => setTimeout(resolve, 700));
+            const r = await fetch("/api/jobs/" + job.id);
+            if (!r.ok) throw Error("Unable to read run status");
+            state = await r.json();
+          } while (state.status === "running");
+          if (state.status !== "complete")
+            throw Error(state.detail || state.error || "Experiment failed");
+          status.textContent = "Complete · dataset and diagnostics ready";
+          $("#recordCount").textContent =
+            state.interval_records.toLocaleString();
+          const horizon = (config.city || config).duration_s;
+          $("#horizon").textContent =
+            horizon >= 3600
+              ? (horizon / 3600).toFixed(1) + " h"
+              : horizon.toPrecision(3) + " s";
+          $("#runtime").textContent = state.runtime_s.toFixed(2) + " s";
+          $("#result").textContent = JSON.stringify(state.totals, null, 2);
+          draw(state.preview);
+          for (const [suffix, label] of [
+            ["xlsx", "↓ Excel workbook"],
+            ["jsonl", "↓ Full-resolution JSONL"],
+            ["metadata", "↓ Parameters, provenance & diagnostics"],
+          ]) {
+            const a = document.createElement("a");
+            a.href = "/api/jobs/" + job.id + "/" + suffix;
+            a.textContent = label;
+            $("#downloads").append(a);
+          }
+        } catch (e) {
+          status.textContent = "Error: " + e.message;
+        } finally {
+          run.disabled = false;
+          mode.disabled = false;
+          $("#reset").disabled = false;
+        }
+      };
+      defaults();
+    </script>
+  </body>
+</html>
