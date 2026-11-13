@@ -17,6 +17,6 @@ Only mark an item complete after the actual implementation and its integration c
 
 ## Current software release evidence
 
-All eight acceptance areas now have implemented artifacts and scoped verification in CITY_MODEL_SCOPE.md. The regression suite passes 76 tests locally. Optional reference comparisons pass 12 solar and six electrical controller cases. The browser completed hybrid and coupled-LCL runs and downloaded a structurally valid workbook. Three-repeat runtime measurements are committed in docs/city/release-benchmark.json. CI provides independent platform/version checks.
+All eight acceptance areas now have implemented artifacts and scoped verification in CITY_MODEL_SCOPE.md. The regression suite passes 77 tests locally. Optional reference comparisons pass 12 solar and six electrical controller cases. The browser completed hybrid, LCL and coupled-LCL runs and downloaded a structurally valid workbook; changing presets clears previous results. Three-repeat runtime measurements are committed in docs/city/release-benchmark.json. CI provides independent platform/version checks.
 
 This completes a runnable, documented synthetic-data software release at the stated model fidelity. It does not complete the entire research proposal: measured component calibration, detailed individual-cell electrochemistry, semiconductor/DC converter loss/dynamics, nonlinear radiation, trained agent policies, SDN emulation, and HIL validation remain explicitly outside this release.

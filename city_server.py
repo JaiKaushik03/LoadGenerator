@@ -217,6 +217,7 @@ class Handler(BaseHTTPRequestHandler):
                     "id": jid,
                     "status": "failed",
                     "error": type(e).__name__,
+                    "detail": str(e)[:512],
                 }
             finally:
                 with self.server.job_lock:

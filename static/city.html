@@ -393,6 +393,7 @@
         );
       }
       async function defaults() {
+        clearResults();
         try {
           const r = await fetch("/api/config?mode=" + mode.value);
           if (!r.ok) throw Error("Preset unavailable");
@@ -406,6 +407,17 @@
         }
       }
       mode.onchange = defaults;
+      function clearResults() {
+        $("#chart").hidden = true;
+        $("#legend").hidden = true;
+        $("#empty").hidden = false;
+        for (const id of ["recordCount", "horizon", "runtime"])
+          $("#" + id).textContent = "—";
+        $("#sampling").textContent = "";
+        $("#result").textContent = "No run yet.";
+        $("#downloads").textContent =
+          "Complete an experiment to enable downloads.";
+      }
       $("#reset").onclick = defaults;
       function draw(preview) {
         const c = $("#chart"),
@@ -505,7 +517,7 @@
             state = await r.json();
           } while (state.status === "running");
           if (state.status !== "complete")
-            throw Error(state.error || "Experiment failed");
+            throw Error(state.detail || state.error || "Experiment failed");
           status.textContent = "Complete · dataset and diagnostics ready";
           $("#recordCount").textContent =
             state.interval_records.toLocaleString();

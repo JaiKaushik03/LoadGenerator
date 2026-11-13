@@ -7,11 +7,16 @@ import zipfile
 import hashlib
 import csv
 from city_csv import export_csv
-from city_export import export_xlsx
+from city_export import export_xlsx, cell
 from hypergrid.city import default_city, CityModel
 
 
 class ExportTests(unittest.TestCase):
+    def test_invalid_xml_codepoints_are_removed_but_valid_unicode_survives(self):
+        xml = cell("A1", "Moon \U0001f319\x00\ud800\ufffe")
+        parsed = ET.fromstring(xml)
+        self.assertEqual("".join(parsed.itertext()), "Moon \U0001f319")
+
     def make_run(self, path):
         config = default_city()
         config["duration_s"] = 60

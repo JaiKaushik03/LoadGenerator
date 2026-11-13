@@ -36,7 +36,14 @@ def cell(ref, value):
         return f'<c r="{ref}"/>'
     if isinstance(value, (float, int)) and not isinstance(value, bool):
         return f'<c r="{ref}"><v>{value}</v></c>'
-    text = "".join(c for c in str(value) if c in "\t\n\r" or ord(c) >= 32)
+    text = "".join(
+        c
+        for c in str(value)
+        if c in "\t\n\r"
+        or 0x20 <= ord(c) <= 0xD7FF
+        or 0xE000 <= ord(c) <= 0xFFFD
+        or 0x10000 <= ord(c) <= 0x10FFFF
+    )
     if len(text) > 32767:
         raise ValueError("Text exceeds Excel cell limit; JSONL remains authoritative")
     return f'<c r="{ref}" t="inlineStr"><is><t xml:space="preserve">{escape(text)}</t></is></c>'
