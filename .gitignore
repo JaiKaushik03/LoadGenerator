@@ -2,8 +2,7 @@ __pycache__/
 *.py[cod]
 outputs/*.xlsx
 outputs/*.csv
+outputs/*/
 .DS_Store
 .vscode/
 .idea/
-
-benchmark-output/

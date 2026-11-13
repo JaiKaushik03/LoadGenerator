@@ -1,0 +1,542 @@
+{
+  "status": "complete",
+  "fidelity": "energy_balance",
+  "config_sha256": "5f3996cadccf1a6388fee502c46006500b9e95d9ff9d952125245933ec24e22a",
+  "source_sha256": "7100e31131b08bd62ee4b7f1b0835381d4a4b0b9d5a2f6f3cce509a929f123d4",
+  "python": "3.12.14",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "config": {
+    "schema_version": 1,
+    "fidelity": "energy_balance",
+    "parameter_provenance": "illustrative editable assumptions; not calibrated",
+    "duration_s": 86400,
+    "step_s": 60,
+    "nodes": [
+      {
+        "id": "mg0",
+        "name": "power_hub",
+        "sources": [
+          {
+            "id": "solar0",
+            "rated_kw": 150,
+            "efficiency": 0.97,
+            "availability": [
+              {
+                "time_s": 0,
+                "value": 1
+              },
+              {
+                "time_s": 43200,
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "id": "critical0",
+            "priority": 0,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 10
+              }
+            ]
+          },
+          {
+            "id": "flexible0",
+            "priority": 1,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 20
+              }
+            ]
+          }
+        ],
+        "storage": [
+          {
+            "id": "battery0",
+            "kind": "battery",
+            "series_cells": 38,
+            "parallel_cells": 2,
+            "cell_voltage_v": 3.2,
+            "cell_capacity_ah": 314,
+            "initial_fraction": 0.8,
+            "charge_limit_kw": 30,
+            "discharge_limit_kw": 30,
+            "charge_efficiency": 0.95,
+            "discharge_efficiency": 0.95,
+            "min_fraction": 0.1,
+            "max_fraction": 0.95,
+            "self_discharge_per_hour": 0.0001
+          }
+        ]
+      },
+      {
+        "id": "mg1",
+        "name": "habitat",
+        "sources": [
+          {
+            "id": "solar1",
+            "rated_kw": 40,
+            "efficiency": 0.97,
+            "availability": [
+              {
+                "time_s": 0,
+                "value": 1
+              },
+              {
+                "time_s": 43200,
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "id": "critical1",
+            "priority": 0,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 10
+              }
+            ]
+          },
+          {
+            "id": "flexible1",
+            "priority": 1,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 20
+              }
+            ]
+          }
+        ],
+        "storage": [
+          {
+            "id": "battery1",
+            "kind": "battery",
+            "series_cells": 38,
+            "parallel_cells": 2,
+            "cell_voltage_v": 3.2,
+            "cell_capacity_ah": 314,
+            "initial_fraction": 0.8,
+            "charge_limit_kw": 30,
+            "discharge_limit_kw": 30,
+            "charge_efficiency": 0.95,
+            "discharge_efficiency": 0.95,
+            "min_fraction": 0.1,
+            "max_fraction": 0.95,
+            "self_discharge_per_hour": 0.0001
+          }
+        ]
+      },
+      {
+        "id": "mg2",
+        "name": "isru",
+        "sources": [
+          {
+            "id": "solar2",
+            "rated_kw": 40,
+            "efficiency": 0.97,
+            "availability": [
+              {
+                "time_s": 0,
+                "value": 1
+              },
+              {
+                "time_s": 43200,
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "id": "critical2",
+            "priority": 0,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 10
+              }
+            ]
+          },
+          {
+            "id": "flexible2",
+            "priority": 1,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 20
+              }
+            ]
+          }
+        ],
+        "storage": [
+          {
+            "id": "battery2",
+            "kind": "battery",
+            "series_cells": 38,
+            "parallel_cells": 2,
+            "cell_voltage_v": 3.2,
+            "cell_capacity_ah": 314,
+            "initial_fraction": 0.8,
+            "charge_limit_kw": 30,
+            "discharge_limit_kw": 30,
+            "charge_efficiency": 0.95,
+            "discharge_efficiency": 0.95,
+            "min_fraction": 0.1,
+            "max_fraction": 0.95,
+            "self_discharge_per_hour": 0.0001
+          }
+        ]
+      },
+      {
+        "id": "mg3",
+        "name": "science",
+        "sources": [
+          {
+            "id": "solar3",
+            "rated_kw": 40,
+            "efficiency": 0.97,
+            "availability": [
+              {
+                "time_s": 0,
+                "value": 1
+              },
+              {
+                "time_s": 43200,
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "id": "critical3",
+            "priority": 0,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 10
+              }
+            ]
+          },
+          {
+            "id": "flexible3",
+            "priority": 1,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 20
+              }
+            ]
+          }
+        ],
+        "storage": [
+          {
+            "id": "battery3",
+            "kind": "battery",
+            "series_cells": 38,
+            "parallel_cells": 2,
+            "cell_voltage_v": 3.2,
+            "cell_capacity_ah": 314,
+            "initial_fraction": 0.8,
+            "charge_limit_kw": 30,
+            "discharge_limit_kw": 30,
+            "charge_efficiency": 0.95,
+            "discharge_efficiency": 0.95,
+            "min_fraction": 0.1,
+            "max_fraction": 0.95,
+            "self_discharge_per_hour": 0.0001
+          }
+        ]
+      },
+      {
+        "id": "mg4",
+        "name": "mobility",
+        "sources": [
+          {
+            "id": "solar4",
+            "rated_kw": 40,
+            "efficiency": 0.97,
+            "availability": [
+              {
+                "time_s": 0,
+                "value": 1
+              },
+              {
+                "time_s": 43200,
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "id": "critical4",
+            "priority": 0,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 10
+              }
+            ]
+          },
+          {
+            "id": "flexible4",
+            "priority": 1,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 20
+              }
+            ]
+          }
+        ],
+        "storage": [
+          {
+            "id": "battery4",
+            "kind": "battery",
+            "series_cells": 38,
+            "parallel_cells": 2,
+            "cell_voltage_v": 3.2,
+            "cell_capacity_ah": 314,
+            "initial_fraction": 0.8,
+            "charge_limit_kw": 30,
+            "discharge_limit_kw": 30,
+            "charge_efficiency": 0.95,
+            "discharge_efficiency": 0.95,
+            "min_fraction": 0.1,
+            "max_fraction": 0.95,
+            "self_discharge_per_hour": 0.0001
+          }
+        ]
+      },
+      {
+        "id": "mg5",
+        "name": "communications",
+        "sources": [
+          {
+            "id": "solar5",
+            "rated_kw": 40,
+            "efficiency": 0.97,
+            "availability": [
+              {
+                "time_s": 0,
+                "value": 1
+              },
+              {
+                "time_s": 43200,
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "id": "critical5",
+            "priority": 0,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 10
+              }
+            ]
+          },
+          {
+            "id": "flexible5",
+            "priority": 1,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 20
+              }
+            ]
+          }
+        ],
+        "storage": [
+          {
+            "id": "battery5",
+            "kind": "battery",
+            "series_cells": 38,
+            "parallel_cells": 2,
+            "cell_voltage_v": 3.2,
+            "cell_capacity_ah": 314,
+            "initial_fraction": 0.8,
+            "charge_limit_kw": 30,
+            "discharge_limit_kw": 30,
+            "charge_efficiency": 0.95,
+            "discharge_efficiency": 0.95,
+            "min_fraction": 0.1,
+            "max_fraction": 0.95,
+            "self_discharge_per_hour": 0.0001
+          }
+        ]
+      },
+      {
+        "id": "mg6",
+        "name": "emergency",
+        "sources": [
+          {
+            "id": "solar6",
+            "rated_kw": 40,
+            "efficiency": 0.97,
+            "availability": [
+              {
+                "time_s": 0,
+                "value": 1
+              },
+              {
+                "time_s": 43200,
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "id": "critical6",
+            "priority": 0,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 10
+              }
+            ]
+          },
+          {
+            "id": "flexible6",
+            "priority": 1,
+            "demand": [
+              {
+                "time_s": 0,
+                "value": 20
+              }
+            ]
+          }
+        ],
+        "storage": [
+          {
+            "id": "battery6",
+            "kind": "battery",
+            "series_cells": 38,
+            "parallel_cells": 2,
+            "cell_voltage_v": 3.2,
+            "cell_capacity_ah": 314,
+            "initial_fraction": 0.8,
+            "charge_limit_kw": 30,
+            "discharge_limit_kw": 30,
+            "charge_efficiency": 0.95,
+            "discharge_efficiency": 0.95,
+            "min_fraction": 0.1,
+            "max_fraction": 0.95,
+            "self_discharge_per_hour": 0.0001
+          }
+        ]
+      }
+    ],
+    "ties": [
+      {
+        "id": "tie1",
+        "a": "mg0",
+        "b": "mg1",
+        "capacity_kw": 50,
+        "loss_fraction": 0.02,
+        "availability": [
+          {
+            "time_s": 0,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "id": "tie2",
+        "a": "mg0",
+        "b": "mg2",
+        "capacity_kw": 50,
+        "loss_fraction": 0.02,
+        "availability": [
+          {
+            "time_s": 0,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "id": "tie3",
+        "a": "mg0",
+        "b": "mg3",
+        "capacity_kw": 50,
+        "loss_fraction": 0.02,
+        "availability": [
+          {
+            "time_s": 0,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "id": "tie4",
+        "a": "mg0",
+        "b": "mg4",
+        "capacity_kw": 50,
+        "loss_fraction": 0.02,
+        "availability": [
+          {
+            "time_s": 0,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "id": "tie5",
+        "a": "mg0",
+        "b": "mg5",
+        "capacity_kw": 50,
+        "loss_fraction": 0.02,
+        "availability": [
+          {
+            "time_s": 0,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "id": "tie6",
+        "a": "mg0",
+        "b": "mg6",
+        "capacity_kw": 50,
+        "loss_fraction": 0.02,
+        "availability": [
+          {
+            "time_s": 0,
+            "value": 1
+          }
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "Not a circuit/load-flow solver or calibrated lunar digital twin",
+    "Ordered direct transfers; no multihop routing or optimal dispatch",
+    "Resource capacity and efficiency models, not full resource dynamics",
+    "No coupled thermal, communications, autonomous-agent or CHIL model",
+    "No two-way coupling to the separate explicit-PWM battery solver"
+  ],
+  "interval_records": 1440,
+  "totals": {
+    "generation_kwh": 4539.599999999974,
+    "served_kwh": 2951.5968210943142,
+    "unserved_kwh": 2088.403178905686,
+    "curtailed_kwh": 1934.560609279964,
+    "transmission_loss_kwh": 0.0,
+    "storage_loss_kwh": 27.683162252861884,
+    "max_abs_bus_balance_residual_kw": 5.684341886080802e-14
+  },
+  "runtime_s": 0.1929626999917673
+}

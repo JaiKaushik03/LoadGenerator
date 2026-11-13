@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HyperGrid City Scenario Editor</title>
+<style>body{font:16px system-ui;max-width:1100px;margin:40px auto;padding:0 24px;color:#14233b;background:#f5f7fb}h1{font-size:32px}textarea{box-sizing:border-box;width:100%;height:420px;border:1px solid #b8c3d5;border-radius:8px;padding:16px;font:13px monospace}button{padding:12px 20px;margin:12px 8px 12px 0;background:#173c6b;color:white;border:0;border-radius:6px;cursor:pointer}button:disabled{opacity:.5}pre{white-space:pre-wrap;background:white;padding:20px;border-radius:8px}a{margin-right:24px;color:#164a80}label{display:block;font-weight:600;margin:24px 0 8px}</style>
+<h1>HyperGrid City Scenario Editor</h1>
+<p>Configure microgrids, sources, loads, storage and direct power links. Energy-balance mode uses editable assumptions; it does not simulate full AC/DC circuit dynamics or establish real-world accuracy.</p>
+<label for="config">Scenario configuration</label><p>Add or remove assets in the arrays to change their counts. All power values are kW; durations are seconds. Keep IDs unique and update link endpoints when changing nodes.</p>
+<textarea id="config" spellcheck="false" aria-label="Scenario configuration"></textarea>
+<button id="reset">Load example</button><button id="run">Run scenario and export</button>
+<p id="status" role="status" aria-live="polite">Loading example…</p><div id="downloads"></div><pre id="result">Run a scenario to inspect city totals.</pre>
+<script>
+const editor=document.querySelector('#config'),status=document.querySelector('#status'),run=document.querySelector('#run');
+async function defaults(){try{editor.value=JSON.stringify(await (await fetch('/api/config')).json(),null,2);status.textContent='Example loaded. Edit before running.'}catch(e){status.textContent=e.message}}
+document.querySelector('#reset').onclick=defaults;
+run.onclick=async()=>{run.disabled=true;document.querySelector('#downloads').replaceChildren();try{const config=JSON.parse(editor.value);const response=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(config)});const job=await response.json();if(!response.ok)throw Error(job.error);status.textContent='Running simulation and preparing Excel…';let state;do{await new Promise(resolve=>setTimeout(resolve,700));state=await(await fetch('/api/jobs/'+job.id)).json()}while(state.status==='running');if(state.status!=='complete')throw Error(state.error||'Job failed');status.textContent='Complete — '+state.interval_records+' intervals';document.querySelector('#result').textContent=JSON.stringify(state.totals,null,2);for(const [suffix,label]of[['xlsx','Download Excel'],['jsonl','Download full dataset'],['metadata','Download assumptions and metadata']]){const a=document.createElement('a');a.href='/api/jobs/'+job.id+'/'+suffix;a.textContent=label;document.querySelector('#downloads').append(a)}}catch(e){status.textContent='Error: '+e.message}finally{run.disabled=false}};defaults();
+</script></html>

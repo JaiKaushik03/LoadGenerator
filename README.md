@@ -1,4 +1,8 @@
-# HyperGrid Battery Digital Twin v0.2 PORTABLE
+# HyperGrid lunar city and battery simulation
+
+## City energy model
+
+Run `python city_server.py` and open http://127.0.0.1:8012 for the new city scenario editor. The seven-node energy model, streaming datasets and Excel export are implemented; detailed whole-city physics remains in development. See [CITY_README.md](CITY_README.md) for scope and verification. The battery interface below remains separate.
 
 ## Tested screenshots
 
