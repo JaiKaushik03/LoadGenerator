@@ -1,0 +1,389 @@
+{
+  "completed_at_utc": "2026-11-13T02:01:38.423447+00:00",
+  "python": "3.12.14",
+  "source_sha256": "180dc038670bfa635dc8fb19fd035674e23e7ac6383649b832b8cc6e58db4330",
+  "solar_cell_parameters": {
+    "series_cells": 60,
+    "parallel_strings": 2,
+    "photocurrent_ref_a": 8.0,
+    "saturation_current_ref_a": 1e-10,
+    "series_resistance_cell_ohm": 0.003,
+    "shunt_resistance_cell_ohm": 500.0,
+    "ideality_factor": 1.3,
+    "current_temp_coefficient_a_k": 0.004,
+    "bandgap_ev": 1.12,
+    "cell_temperature_c": 25.0
+  },
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.16.3",
+    "pvlib": "0.13.1"
+  },
+  "criterion": "<=1% PV MPP relative error and <=1% normalized EMT voltage/current waveform errors on stated cases",
+  "passed": true,
+  "solar_cases": [
+    {
+      "irradiance_w_m2": 100.0,
+      "temperature_c": -20.0,
+      "hypergrid_mpp_kw": 0.06613138244393782,
+      "pvlib_mpp_kw": 0.06613138244393782,
+      "relative_power_error": 0.0
+    },
+    {
+      "irradiance_w_m2": 100.0,
+      "temperature_c": 25.0,
+      "hypergrid_mpp_kw": 0.0600240470846959,
+      "pvlib_mpp_kw": 0.060024047084695706,
+      "relative_power_error": 3.2368532071030605e-15
+    },
+    {
+      "irradiance_w_m2": 100.0,
+      "temperature_c": 60.0,
+      "hypergrid_mpp_kw": 0.05504938455480602,
+      "pvlib_mpp_kw": 0.055049384554806007,
+      "relative_power_error": 2.5209705648930597e-16
+    },
+    {
+      "irradiance_w_m2": 500.0,
+      "temperature_c": -20.0,
+      "hypergrid_mpp_kw": 0.3477042685962082,
+      "pvlib_mpp_kw": 0.3477042685962081,
+      "relative_power_error": 1.5965047382183102e-16
+    },
+    {
+      "irradiance_w_m2": 500.0,
+      "temperature_c": 25.0,
+      "hypergrid_mpp_kw": 0.3209219857291235,
+      "pvlib_mpp_kw": 0.32092198572912356,
+      "relative_power_error": 1.7297397404898398e-16
+    },
+    {
+      "irradiance_w_m2": 500.0,
+      "temperature_c": 60.0,
+      "hypergrid_mpp_kw": 0.2989984631792719,
+      "pvlib_mpp_kw": 0.2989984631792718,
+      "relative_power_error": 3.713139568745861e-16
+    },
+    {
+      "irradiance_w_m2": 1000.0,
+      "temperature_c": -20.0,
+      "hypergrid_mpp_kw": 0.7031008082111078,
+      "pvlib_mpp_kw": 0.7031008082111073,
+      "relative_power_error": 6.316152743160039e-16
+    },
+    {
+      "irradiance_w_m2": 1000.0,
+      "temperature_c": 25.0,
+      "hypergrid_mpp_kw": 0.6526764323259355,
+      "pvlib_mpp_kw": 0.652676432325935,
+      "relative_power_error": 8.505156381000831e-16
+    },
+    {
+      "irradiance_w_m2": 1000.0,
+      "temperature_c": 60.0,
+      "hypergrid_mpp_kw": 0.6113209811549767,
+      "pvlib_mpp_kw": 0.611320981154976,
+      "relative_power_error": 1.0896629353642653e-15
+    },
+    {
+      "irradiance_w_m2": 1400.0,
+      "temperature_c": -20.0,
+      "hypergrid_mpp_kw": 0.9850314367565006,
+      "pvlib_mpp_kw": 0.9850314367565008,
+      "relative_power_error": 2.2541880049653744e-16
+    },
+    {
+      "irradiance_w_m2": 1400.0,
+      "temperature_c": 25.0,
+      "hypergrid_mpp_kw": 0.9164655000007679,
+      "pvlib_mpp_kw": 0.9164655000007665,
+      "relative_power_error": 1.4537018900865047e-15
+    },
+    {
+      "irradiance_w_m2": 1400.0,
+      "temperature_c": 60.0,
+      "hypergrid_mpp_kw": 0.8601927020533486,
+      "pvlib_mpp_kw": 0.8601927020533486,
+      "relative_power_error": 0.0
+    }
+  ],
+  "electrical_cases": [
+    {
+      "topology": "rl",
+      "control": "droop",
+      "samples": 201,
+      "step_s": 2e-05,
+      "config": {
+        "duration_s": 0.04,
+        "step_s": 2e-05,
+        "output_interval_s": 0.0002,
+        "frequency_hz": 60.0,
+        "nodes": [
+          {
+            "id": "habitat",
+            "control": "droop",
+            "voltage_phase_rms_v": 120.0,
+            "dc_voltage_v": 400.0,
+            "source_l_h": 0.0026,
+            "source_r_ohm": 0.1,
+            "bus_c_f": 0.0002,
+            "load_r_ohm": 20.0,
+            "p_set_w": 2160.0,
+            "q_set_var": 0.0,
+            "mp_rad_s_per_w": 0.0002,
+            "mq_v_per_var": 0.0001,
+            "inertia_w_s2_rad": 100.0,
+            "power_filter_rad_s": 50.0,
+            "dvoc_k1": 5.76,
+            "dvoc_k2": 1e-06
+          }
+        ],
+        "lines": []
+      },
+      "reference": "SciPy DOP853, same model RHS",
+      "rtol": 1e-10,
+      "atol": 1e-11,
+      "max_voltage_error_v": 5.782735286175011e-07,
+      "max_error_relative_to_nominal_voltage": 4.81894607181251e-09,
+      "max_normalized_voltage_waveform_error": 4.947668145716717e-09,
+      "max_normalized_current_waveform_error": 9.097243062709955e-09
+    },
+    {
+      "topology": "rl",
+      "control": "vsm",
+      "samples": 201,
+      "step_s": 2e-05,
+      "config": {
+        "duration_s": 0.04,
+        "step_s": 2e-05,
+        "output_interval_s": 0.0002,
+        "frequency_hz": 60.0,
+        "nodes": [
+          {
+            "id": "habitat",
+            "control": "vsm",
+            "voltage_phase_rms_v": 120.0,
+            "dc_voltage_v": 400.0,
+            "source_l_h": 0.0026,
+            "source_r_ohm": 0.1,
+            "bus_c_f": 0.0002,
+            "load_r_ohm": 20.0,
+            "p_set_w": 2160.0,
+            "q_set_var": 0.0,
+            "mp_rad_s_per_w": 0.0002,
+            "mq_v_per_var": 0.0001,
+            "inertia_w_s2_rad": 100.0,
+            "power_filter_rad_s": 50.0,
+            "dvoc_k1": 5.76,
+            "dvoc_k2": 1e-06
+          }
+        ],
+        "lines": []
+      },
+      "reference": "SciPy DOP853, same model RHS",
+      "rtol": 1e-10,
+      "atol": 1e-11,
+      "max_voltage_error_v": 5.915678684687009e-07,
+      "max_error_relative_to_nominal_voltage": 4.929732237239174e-09,
+      "max_normalized_voltage_waveform_error": 4.942859719278742e-09,
+      "max_normalized_current_waveform_error": 9.094416634544084e-09
+    },
+    {
+      "topology": "rl",
+      "control": "dvoc",
+      "samples": 201,
+      "step_s": 2e-05,
+      "config": {
+        "duration_s": 0.04,
+        "step_s": 2e-05,
+        "output_interval_s": 0.0002,
+        "frequency_hz": 60.0,
+        "nodes": [
+          {
+            "id": "habitat",
+            "control": "dvoc",
+            "voltage_phase_rms_v": 120.0,
+            "dc_voltage_v": 400.0,
+            "source_l_h": 0.0026,
+            "source_r_ohm": 0.1,
+            "bus_c_f": 0.0002,
+            "load_r_ohm": 20.0,
+            "p_set_w": 2160.0,
+            "q_set_var": 0.0,
+            "mp_rad_s_per_w": 0.0002,
+            "mq_v_per_var": 0.0001,
+            "inertia_w_s2_rad": 100.0,
+            "power_filter_rad_s": 50.0,
+            "dvoc_k1": 5.76,
+            "dvoc_k2": 1e-06
+          }
+        ],
+        "lines": []
+      },
+      "reference": "SciPy DOP853, same model RHS",
+      "rtol": 1e-10,
+      "atol": 1e-11,
+      "max_voltage_error_v": 5.788222949831834e-07,
+      "max_error_relative_to_nominal_voltage": 4.8235191248598616e-09,
+      "max_normalized_voltage_waveform_error": 4.950246106043237e-09,
+      "max_normalized_current_waveform_error": 9.102104441420496e-09
+    },
+    {
+      "topology": "lcl",
+      "control": "droop",
+      "samples": 201,
+      "step_s": 5e-06,
+      "config": {
+        "duration_s": 0.04,
+        "step_s": 5e-06,
+        "output_interval_s": 0.0002,
+        "frequency_hz": 60.0,
+        "nodes": [
+          {
+            "id": "habitat",
+            "control": "droop",
+            "voltage_phase_rms_v": 120.0,
+            "dc_voltage_v": 400.0,
+            "source_l_h": 0.0026,
+            "source_r_ohm": 0.1,
+            "bus_c_f": 0.0002,
+            "load_r_ohm": 20.0,
+            "p_set_w": 2160.0,
+            "q_set_var": 0.0,
+            "mp_rad_s_per_w": 0.0002,
+            "mq_v_per_var": 0.0001,
+            "inertia_w_s2_rad": 100.0,
+            "power_filter_rad_s": 50.0,
+            "dvoc_k1": 5.76,
+            "dvoc_k2": 1e-06,
+            "lcl": {
+              "filter_c_f": 2e-05,
+              "grid_l_h": 0.00065,
+              "grid_r_ohm": 0.05,
+              "voltage_kp_a_v": 0.02,
+              "voltage_ki_a_vs": 5.0,
+              "current_kp_v_a": 10.0,
+              "current_ki_v_as": 1000.0,
+              "antiwindup_per_s": 100.0,
+              "current_reference_limit_a": 50.0
+            }
+          }
+        ],
+        "lines": []
+      },
+      "reference": "SciPy DOP853, same model RHS",
+      "rtol": 1e-10,
+      "atol": 1e-11,
+      "max_voltage_error_v": 3.2643409326738038e-06,
+      "max_error_relative_to_nominal_voltage": 2.720284110561503e-08,
+      "max_normalized_voltage_waveform_error": 3.0278862020738925e-08,
+      "max_normalized_current_waveform_error": 7.162617171788448e-08
+    },
+    {
+      "topology": "lcl",
+      "control": "vsm",
+      "samples": 201,
+      "step_s": 5e-06,
+      "config": {
+        "duration_s": 0.04,
+        "step_s": 5e-06,
+        "output_interval_s": 0.0002,
+        "frequency_hz": 60.0,
+        "nodes": [
+          {
+            "id": "habitat",
+            "control": "vsm",
+            "voltage_phase_rms_v": 120.0,
+            "dc_voltage_v": 400.0,
+            "source_l_h": 0.0026,
+            "source_r_ohm": 0.1,
+            "bus_c_f": 0.0002,
+            "load_r_ohm": 20.0,
+            "p_set_w": 2160.0,
+            "q_set_var": 0.0,
+            "mp_rad_s_per_w": 0.0002,
+            "mq_v_per_var": 0.0001,
+            "inertia_w_s2_rad": 100.0,
+            "power_filter_rad_s": 50.0,
+            "dvoc_k1": 5.76,
+            "dvoc_k2": 1e-06,
+            "lcl": {
+              "filter_c_f": 2e-05,
+              "grid_l_h": 0.00065,
+              "grid_r_ohm": 0.05,
+              "voltage_kp_a_v": 0.02,
+              "voltage_ki_a_vs": 5.0,
+              "current_kp_v_a": 10.0,
+              "current_ki_v_as": 1000.0,
+              "antiwindup_per_s": 100.0,
+              "current_reference_limit_a": 50.0
+            }
+          }
+        ],
+        "lines": []
+      },
+      "reference": "SciPy DOP853, same model RHS",
+      "rtol": 1e-10,
+      "atol": 1e-11,
+      "max_voltage_error_v": 3.7147229363654333e-06,
+      "max_error_relative_to_nominal_voltage": 3.095602446971195e-08,
+      "max_normalized_voltage_waveform_error": 3.1062804967623706e-08,
+      "max_normalized_current_waveform_error": 6.880215362641475e-08
+    },
+    {
+      "topology": "lcl",
+      "control": "dvoc",
+      "samples": 201,
+      "step_s": 5e-06,
+      "config": {
+        "duration_s": 0.04,
+        "step_s": 5e-06,
+        "output_interval_s": 0.0002,
+        "frequency_hz": 60.0,
+        "nodes": [
+          {
+            "id": "habitat",
+            "control": "dvoc",
+            "voltage_phase_rms_v": 120.0,
+            "dc_voltage_v": 400.0,
+            "source_l_h": 0.0026,
+            "source_r_ohm": 0.1,
+            "bus_c_f": 0.0002,
+            "load_r_ohm": 20.0,
+            "p_set_w": 2160.0,
+            "q_set_var": 0.0,
+            "mp_rad_s_per_w": 0.0002,
+            "mq_v_per_var": 0.0001,
+            "inertia_w_s2_rad": 100.0,
+            "power_filter_rad_s": 50.0,
+            "dvoc_k1": 5.76,
+            "dvoc_k2": 1e-06,
+            "lcl": {
+              "filter_c_f": 2e-05,
+              "grid_l_h": 0.00065,
+              "grid_r_ohm": 0.05,
+              "voltage_kp_a_v": 0.02,
+              "voltage_ki_a_vs": 5.0,
+              "current_kp_v_a": 10.0,
+              "current_ki_v_as": 1000.0,
+              "antiwindup_per_s": 100.0,
+              "current_reference_limit_a": 50.0
+            }
+          }
+        ],
+        "lines": []
+      },
+      "reference": "SciPy DOP853, same model RHS",
+      "rtol": 1e-10,
+      "atol": 1e-11,
+      "max_voltage_error_v": 5.250768168707509e-06,
+      "max_error_relative_to_nominal_voltage": 4.375640140589591e-08,
+      "max_normalized_voltage_waveform_error": 4.4829702958187866e-08,
+      "max_normalized_current_waveform_error": 7.777902009424888e-08
+    }
+  ],
+  "limitations": [
+    "Independent numerical solvers share the stated model equations and parameter inputs",
+    "Not a validation of physical component parameters, full city behavior, commercial tool parity or flight suitability"
+  ]
+}

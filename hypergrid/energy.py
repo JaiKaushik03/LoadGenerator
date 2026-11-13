@@ -1,4 +1,5 @@
 """Conservative reduced-order electrical storage. Not an electrochemical solver."""
+
 from dataclasses import dataclass
 import math
 
@@ -11,12 +12,22 @@ def finite(name, value, minimum=0.0, maximum=math.inf):
     return float(value)
 
 
-def battery_capacity_kwh(series_cells, parallel_cells, cell_voltage_v, cell_capacity_ah):
-    for name, value in [("series_cells", series_cells), ("parallel_cells", parallel_cells)]:
+def battery_capacity_kwh(
+    series_cells, parallel_cells, cell_voltage_v, cell_capacity_ah
+):
+    for name, value in [
+        ("series_cells", series_cells),
+        ("parallel_cells", parallel_cells),
+    ]:
         if isinstance(value, bool) or not isinstance(value, int) or value < 1:
             raise ValueError(f"{name} must be a positive integer")
-    return (series_cells * parallel_cells * finite("cell_voltage_v", cell_voltage_v, 0.001)
-            * finite("cell_capacity_ah", cell_capacity_ah, 0.001) / 1000)
+    return (
+        series_cells
+        * parallel_cells
+        * finite("cell_voltage_v", cell_voltage_v, 0.001)
+        * finite("cell_capacity_ah", cell_capacity_ah, 0.001)
+        / 1000
+    )
 
 
 @dataclass
@@ -57,17 +68,27 @@ class Storage:
         self.energy_kwh -= idle_loss
         if requested_kw >= 0:
             available = max(0, self.energy_kwh - self.capacity_kwh * self.min_fraction)
-            p = min(requested_kw, self.discharge_limit_kw, available * self.discharge_efficiency / h)
+            p = min(
+                requested_kw,
+                self.discharge_limit_kw,
+                available * self.discharge_efficiency / h,
+            )
             change = -p * h / self.discharge_efficiency
             conversion_loss = p * h * (1 / self.discharge_efficiency - 1)
         else:
             room = max(0, self.capacity_kwh * self.max_fraction - self.energy_kwh)
-            p = -min(-requested_kw, self.charge_limit_kw, room / (self.charge_efficiency * h))
+            p = -min(
+                -requested_kw, self.charge_limit_kw, room / (self.charge_efficiency * h)
+            )
             change = -p * h * self.charge_efficiency
             conversion_loss = -p * h * (1 - self.charge_efficiency)
         self.energy_kwh += change
         loss = idle_loss + conversion_loss
         residual = initial - self.energy_kwh - p * h - loss
-        return {"power_kw": p, "energy_kwh": self.energy_kwh,
-                "fraction": self.energy_kwh / self.capacity_kwh,
-                "loss_kwh": loss, "balance_residual_kwh": residual}
+        return {
+            "power_kw": p,
+            "energy_kwh": self.energy_kwh,
+            "fraction": self.energy_kwh / self.capacity_kwh,
+            "loss_kwh": loss,
+            "balance_residual_kwh": residual,
+        }

@@ -1,8 +1,22 @@
 # HyperGrid lunar city and battery simulation
 
-## City energy model
+## Lunar-city research platform
 
-Run `python city_server.py` and open http://127.0.0.1:8012 for the new city scenario editor. The seven-node energy model, streaming datasets and Excel export are implemented; detailed whole-city physics remains in development. See [CITY_README.md](CITY_README.md) for scope and verification. The battery interface below remains separate.
+Generate auditable synthetic datasets across a configurable seven-microgrid lunar-city scenario: solar arrays, batteries, hydrogen/oxygen/water storage cycles, flywheels, supercapacitors, thermal tanks, loads and interconnections. Run long mission horizons, short balanced electrical windows, or two-way resource/inverter coupling. Parameters are editable assumptions; numerical validation is scoped to stated equations and cases.
+
+```sh
+python city_server.py
+```
+
+Open http://127.0.0.1:8012 for six presets, configuration editing, power plots, diagnostics and full-resolution downloads. The application uses the Python standard library; optional SciPy/pvlib dependencies are only for independent reference comparisons.
+
+**Start here:** [model guide and reproducible commands](CITY_README.md) · [requirements and evidence](CITY_MODEL_SCOPE.md) · [reference validation](docs/city/release-reference-validation.json).
+
+Measured on the recorded Windows/Python environment, three runs of the hybrid city example had a median simulation time of **3.68 s** for **24 simulated hours at one-minute output**, producing **66,240 component-table rows**. A seven-node coupled LCL case simulated **0.1 s with 5 µs electrical steps** in **15.71 s median**. These are distinct workloads, not real-time guarantees. See [complete benchmark configurations and results](docs/city/release-benchmark.json).
+
+![Verified coupled city and LCL experiment](docs/screenshots/city-coupled.jpg)
+
+The lunar-city work supports an academic NASA lunar-city modeling context. This repository does not claim NASA funding, endorsement, calibrated lunar performance or flight certification. Existing battery PWM simulation and its separate `app.py` interface remain available below.
 
 ## Tested screenshots
 

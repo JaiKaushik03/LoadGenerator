@@ -7,15 +7,39 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m unittest discover -s tests -v
+      - run: python city_cli.py --config examples/city.json --output outputs/ci-city
+      - run: python city_export.py outputs/ci-city --output outputs/ci-city/city.xlsx
+      - run: python city_cli.py --config examples/city-hybrid.json --output outputs/ci-hybrid
+      - run: python city_export.py outputs/ci-hybrid --output outputs/ci-hybrid/city.xlsx
+      - run: python city_csv.py outputs/ci-hybrid --output outputs/ci-hybrid/csv
+      - run: python electrical_cli.py --mode coupled --config examples/coupled-lcl.json --output outputs/ci-coupled --xlsx
+      - uses: actions/upload-artifact@v4
+        with:
+          name: city-example-data-${{ matrix.python }}
+          path: |
+            outputs/ci-city
+            outputs/ci-hybrid
+            outputs/ci-coupled
+  references:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m unittest discover -s tests -v
-      - run: python city_cli.py --config examples/city.json --output outputs/ci-city
-      - run: python city_export.py outputs/ci-city --output outputs/ci-city/city.xlsx
+      - run: python -m pip install -r requirements-validation.txt
+      - run: ruff check city_cli.py city_export.py city_csv.py city_server.py electrical_cli.py validate_references.py hypergrid/city.py hypergrid/energy.py hypergrid/thermal.py hypergrid/reactants.py hypergrid/solar.py hypergrid/emt.py hypergrid/lcl.py hypergrid/coupled.py hypergrid/telemetry.py hypergrid/checkpoints.py hypergrid/preview.py tests
+      - run: python validate_references.py --output outputs/ci-references.json
       - uses: actions/upload-artifact@v4
         with:
-          name: city-example-data
-          path: outputs/ci-city
+          name: independent-reference-comparisons
+          path: outputs/ci-references.json
