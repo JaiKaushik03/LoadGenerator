@@ -1,0 +1,102 @@
+[
+  {
+    "case": "RC_voltage_step",
+    "reference": 11.919144636010975,
+    "steps_s": [
+      0.01,
+      0.005,
+      0.0025
+    ],
+    "computed": [
+      11.91914426979894,
+      11.919144614058474,
+      11.919144634667258
+    ],
+    "absolute_errors": [
+      3.6621203491904453e-07,
+      2.195250026204576e-08,
+      1.3437162493801225e-09
+    ],
+    "finest_relative_error": 1.1273596305899255e-10,
+    "observed_orders": [
+      4.060222034765761,
+      4.030084840126305
+    ],
+    "passes_one_percent_reference_tolerance": true
+  },
+  {
+    "case": "RL_current_step",
+    "reference": 4.966310265004573,
+    "steps_s": [
+      0.01,
+      0.005,
+      0.0025
+    ],
+    "computed": [
+      4.966310112416225,
+      4.966310255857696,
+      4.966310264444692
+    ],
+    "absolute_errors": [
+      1.525883481789947e-07,
+      9.14687703357231e-09,
+      5.598810304263679e-10
+    ],
+    "finest_relative_error": 1.1273581402507328e-10,
+    "observed_orders": [
+      4.0602217340402325,
+      4.030087050856429
+    ],
+    "passes_one_percent_reference_tolerance": true
+  },
+  {
+    "case": "linearized_swing_speed",
+    "reference": 0.31606027941427883,
+    "steps_s": [
+      0.1,
+      0.05,
+      0.025
+    ],
+    "computed": [
+      0.3160602791649032,
+      0.31606027939882275,
+      0.31606027941331677
+    ],
+    "absolute_errors": [
+      2.4937563125604356e-10,
+      1.545608085962158e-11,
+      9.620637619889294e-13
+    ],
+    "finest_relative_error": 3.043924923979124e-12,
+    "observed_orders": [
+      4.012074041316428,
+      4.005898223048807
+    ],
+    "passes_one_percent_reference_tolerance": true
+  },
+  {
+    "case": "thermal_first_order",
+    "reference": 39.86524106001829,
+    "steps_s": [
+      20.0,
+      10.0,
+      5.0
+    ],
+    "computed": [
+      39.8652404496649,
+      39.8652410234308,
+      39.865241057778746
+    ],
+    "absolute_errors": [
+      6.103533891632651e-07,
+      3.658749392343452e-08,
+      2.2395454379875446e-09
+    ],
+    "finest_relative_error": 5.6177897798632226e-11,
+    "observed_orders": [
+      4.060222285996041,
+      4.030072758680396
+    ],
+    "passes_one_percent_reference_tolerance": true
+  }
+]

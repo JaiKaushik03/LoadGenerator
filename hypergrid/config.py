@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import math
 
 
 def default_config() -> dict:
@@ -136,6 +137,9 @@ def normalize_config(supplied: dict | None) -> dict:
     sim = cfg["simulation"]
     conv = cfg["converter"]
     prot = cfg["protections"]
+    for key in ("duration_s", "dc_bus_target_v", "output_sample_rate_hz"):
+        if not math.isfinite(float(sim[key])):
+            raise ValueError(f"Simulation {key} must be finite.")
     if float(sim["duration_s"]) <= 0 or float(sim["duration_s"]) > 120:
         raise ValueError("Simulation duration must be > 0 and <= 120 s.")
     if float(sim["dc_bus_target_v"]) <= 0:

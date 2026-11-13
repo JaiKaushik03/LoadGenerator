@@ -1,0 +1,79 @@
+{
+  "kind": "synthetic software performance benchmark, not physical validation",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+  "repeats": 3,
+  "cases": [
+    {
+      "duration_s": 3.2,
+      "actual_end_s": 3.2,
+      "terminal_grid_gap_s": 0.0,
+      "runtime_seconds": [
+        3.316152899998997,
+        4.787452800002939,
+        4.759316700001364
+      ],
+      "median_runtime_s": 4.759316700001364,
+      "time_samples": 16001,
+      "output_interval_s": 0.0002,
+      "integration_step_s": 2e-05,
+      "trips": [
+        "none"
+      ]
+    },
+    {
+      "duration_s": 30.0,
+      "actual_end_s": 29.99998,
+      "terminal_grid_gap_s": 1.9999999999242846e-05,
+      "runtime_seconds": [
+        30.02048769999965,
+        27.895520099998976,
+        26.776808900001924
+      ],
+      "median_runtime_s": 27.895520099998976,
+      "time_samples": 150001,
+      "output_interval_s": 0.0002,
+      "integration_step_s": 2e-05,
+      "trips": [
+        "none"
+      ]
+    },
+    {
+      "duration_s": 120.0,
+      "actual_end_s": 119.99998000000001,
+      "terminal_grid_gap_s": 1.9999999992137418e-05,
+      "runtime_seconds": [
+        144.08596379999653,
+        213.00680920000013,
+        310.50796249999985
+      ],
+      "median_runtime_s": 213.00680920000013,
+      "time_samples": 600001,
+      "output_interval_s": 0.0002,
+      "integration_step_s": 2e-05,
+      "trips": [
+        "none"
+      ],
+      "xlsx_export_runtime_s": 111.38210450000042,
+      "xlsx_bytes": 110817038,
+      "xlsx_sha256": "3e46d43860dca4e9036482fff0322b12c67c291ff5453e9b86fc7677cd762d0c",
+      "verified_xlsx_sheets": {
+        "xl/worksheets/sheet4.xml": {
+          "data_rows": 600001,
+          "columns": 3
+        },
+        "xl/worksheets/sheet5.xml": {
+          "data_rows": 600001,
+          "columns": 17
+        }
+      }
+    }
+  ],
+  "source_sha256": {
+    "hypergrid\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "hypergrid\\config.py": "7212037044f7db41450bb7520093f13c503b3ab8f5c919b19b44372f17957ea7",
+    "hypergrid\\exporter.py": "27cc923f3876e50844bbdcc209d1861114d1b5c9a0620679ccfbc01659af4e0b",
+    "hypergrid\\simulator.py": "a558909c853f9073ea42bbcd17ea446f2b2801549d8b0c6725015b112ac10cb0"
+  }
+}
